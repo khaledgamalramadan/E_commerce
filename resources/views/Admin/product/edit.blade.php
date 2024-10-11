@@ -1,11 +1,11 @@
 @extends('Admin.master')
 
 @section('title')
-    {{ trans('title_page.create_product') }}
+    {{ trans('title_page.Edit_category') }}
 @endsection
 
 @section('mian_title')
-    {{ trans('content.create_product') }}
+    {{ trans('content.Edit_category') }}
 @endsection
 
 @section('breadcrumb_title1')
@@ -13,7 +13,7 @@
 @endsection
 
 @section('breadcrumb_title2')
-    {{ trans('content.create_product') }}
+    {{ trans('content.Edit_category') }}
 @endsection
 
 @section('content')
@@ -23,16 +23,17 @@
             <div class="bg-danger">{{ session('error_catch') }}</div>
         @endif
 
-        <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('products.update',$product->id) }}" method="post" enctype="multipart/form-data">
             @csrf
-
+            @method('PUT')
 
             <div class="row">
                 <label for="name_ar">{{ trans('product_trans.category') }}</label>
                 <select name="category_id" id="" class="form-control">
                     <option value="">{{ trans('product_trans.please_select') }}</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        <option value="{{ $category->id }}"
+                            {{ $product->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -41,7 +42,7 @@
                     <label for="name_ar">{{ trans('product_trans.name_ar') }}</label>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control @error('name_ar') is-invalid @enderror" name="name_ar"
-                            value="{{ old('name_ar') }}">
+                            value="{{ $product->getTranslation('name', 'ar') }}">
                     </div>
                     @error('name_ar')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -51,7 +52,7 @@
                     <label for="name_en">{{ trans('product_trans.name_en') }}</label>
                     <div class="input-group mb-3 col">
                         <input type="text" class="form-control @error('name_en') is-invalid @enderror" name="name_en"
-                            value="{{ old('name_en') }}">
+                            value="{{ $product->getTranslation('name', 'en') }}">
 
                     </div>
                     @error('name_en')
@@ -65,21 +66,27 @@
                     <label for="slug">{{ trans('product_trans.slug') }}</label>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control  @error('slug') is-invalid @enderror" name="slug"
-                            value="{{ old('slug') }}">
+                            value="{{ $product->slug }}">
                     </div>
                     @error('slug')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col">
-                    <label for="image">{{ trans('product_trans.image') }}</label>
-                    <div class="input-group mb-3 col">
-                        <input type="file" class="form-control  @error('image') is-invalid @enderror" name="image"
-                            value="{{ old('image') }}">
+                    <div class="row">
+                        <label for="image">{{ trans('product_trans.image') }}</label>
+                        <div class="col">
+                            <img src="{{ asset('uploads/' . $product->image) }}" alt=""
+                                style=" max-width: 100px; max-height: 100px;">
+                        </div>
+                        <div class="col">
+                            <input type="file" class="form-control  @error('image') is-invalid @enderror" name="image">
+                        </div>
+                        @error('image')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('image')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+
                 </div>
 
             </div>
@@ -89,7 +96,7 @@
                     <label for="short_description_ar">{{ trans('product_trans.short_description_ar') }}</label>
                     <div class="input-group mb-3">
                         <textarea name="short_description_ar" rows="3" cols="3"
-                            class="form-control @error('short_description_ar') is-invalid @enderror">{{ old('short_description_ar') }}</textarea>
+                            class="form-control @error('short_description_ar') is-invalid @enderror">{{ $product->getTranslation('short_description', 'ar') }}</textarea>
                     </div>
                     @error('short_description_ar')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -99,7 +106,7 @@
                     <label for="short_description_en">{{ trans('product_trans.short_description_en') }}</label>
                     <div class="input-group mb-3">
                         <textarea name="short_description_en" rows="3" cols="3"
-                            class="form-control @error('short_description_en') is-invalid @enderror">{{ old('short_description_en') }}</textarea>
+                            class="form-control @error('short_description_en') is-invalid @enderror">{{ $product->getTranslation('short_description', 'en') }}</textarea>
                     </div>
                     @error('short_description_en')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -112,7 +119,7 @@
                     <label for="description_ar">{{ trans('product_trans.description_ar') }}</label>
                     <div class="input-group mb-3">
                         <textarea name="description_ar" rows="3" cols="3"
-                            class="form-control @error('description_ar') is-invalid @enderror">{{ old('description_ar') }}</textarea>
+                            class="form-control @error('description_ar') is-invalid @enderror">{{ $product->getTranslation('description', 'ar') }}</textarea>
                     </div>
                     @error('description_ar')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -122,7 +129,7 @@
                     <label for="description_en">{{ trans('product_trans.description_en') }}</label>
                     <div class="input-group mb-3">
                         <textarea name="description_en" rows="3" cols="3"
-                            class="form-control @error('description_en') is-invalid @enderror">{{ old('description_en') }}</textarea>
+                            class="form-control @error('description_en') is-invalid @enderror">{{ $product->getTranslation('description', 'en') }}</textarea>
                     </div>
                     @error('description_en')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -134,14 +141,16 @@
                 <div class="col">
                     <label for="status">{{ trans('product_trans.status') }}</label>
                     <div class="input-group mb-3">
-                        <input type="checkbox" class="" id="status" name="status">
+                        <input type="checkbox" {{ $product->status == 1 ? 'checked' : '' }} class=""
+                            id="status" name="status">
                     </div>
 
                 </div>
                 <div class="col">
                     <label for="trend">{{ trans('product_trans.trend') }}</label>
                     <div class="input-group mb-3 col">
-                        <input type="checkbox" class="" id="trend" name="trend">
+                        <input type="checkbox" {{ $product->trend == 1 ? 'checked' : '' }} class="" id="trend"
+                            name="trend">
                     </div>
                 </div>
             </div>
@@ -151,7 +160,7 @@
                     <label for="price">{{ trans('product_trans.price') }}</label>
                     <div class="input-group mb-3">
                         <input type="number" name="price" class="form-control @error('price') is-invalid @enderror"
-                            value="{{ old('price') }}">
+                            value="{{ $product->price }}">
                     </div>
                     @error('price')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -162,7 +171,7 @@
                     <div class="input-group mb-3">
                         <input type="number" name="selling_price"
                             class="form-control @error('selling_price') is-invalid @enderror"
-                            value="{{ old('selling_price') }}">
+                            value="{{ $product->selling_price }}">
                     </div>
                     @error('selling_price')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -175,7 +184,7 @@
                     <label for="qty">{{ trans('product_trans.qty') }}</label>
                     <div class="input-group mb-3">
                         <input type="number" name="qty" class="form-control @error('qty') is-invalid @enderror"
-                            value="{{ old('qty') }}">
+                            value="{{ $product->qty }}">
                     </div>
                     @error('qty')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -185,7 +194,7 @@
                     <label for="tax">{{ trans('product_trans.tax') }}</label>
                     <div class="input-group mb-3">
                         <input type="number" name="tax" class="form-control @error('tax') is-invalid @enderror"
-                            value="{{ old('tax') }}">
+                            value="{{ $product->tax }}">
                     </div>
                     @error('tax')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -199,7 +208,7 @@
                     <div class="input-group mb-3">
                         <input type="text" name="meta_title"
                             class="form-control @error('meta_title') is-invalid @enderror"
-                            value="{{ old('meta_title') }}">
+                            value="{{ $product->meta_title }}">
                     </div>
                     @error('meta_title')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -212,7 +221,7 @@
                     <label for="meta_description_ar">{{ trans('product_trans.meta_description_ar') }}</label>
                     <div class="input-group mb-3">
                         <textarea name="meta_description_ar" rows="3" cols="3"
-                            class="form-control @error('meta_description_ar') is-invalid @enderror">{{ old('meta_description_ar') }}</textarea>
+                            class="form-control @error('meta_description_ar') is-invalid @enderror">{{ $product->getTranslation('meta_description', 'ar') }}</textarea>
                     </div>
                     @error('meta_description_ar')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -222,7 +231,7 @@
                     <label for="meta_description_en">{{ trans('product_trans.meta_description_en') }}</label>
                     <div class="input-group mb-3">
                         <textarea name="meta_description_en" rows="3" cols="3"
-                            class="form-control @error('meta_description_en') is-invalid @enderror">{{ old('meta_description_en') }}</textarea>
+                            class="form-control @error('meta_description_en') is-invalid @enderror">{{ $product->getTranslation('meta_description', 'en') }}</textarea>
                     </div>
                     @error('meta_description_en')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -236,7 +245,7 @@
                         class="text-danger">{{ trans('product_trans.meta_keyword_note') }}</span>
                     <div class="input-group mb-3">
                         <textarea name="meta_keywords" rows="3" cols="3"
-                            class="form-control @error('meta_keywords') is-invalid @enderror">{{ old('meta_keywords') }}</textarea>
+                            class="form-control @error('meta_keywords') is-invalid @enderror">{{ $product->meta_keywords }}</textarea>
                     </div>
                     @error('meta_keywords')
                         <div class="alert alert-danger">{{ $message }}</div>

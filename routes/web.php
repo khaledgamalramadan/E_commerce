@@ -26,6 +26,7 @@ Route::group(
             Route::get('/dashboard',[AdminController::class,'index'])->name('dashboard');
             Route::resource('categories',CategoryController::class);
             Route::resource('products',ProductController::class);
+            
         });
 
         Route::get('/', function () {

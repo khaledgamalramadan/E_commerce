@@ -153,6 +153,19 @@
             </div>
         </div>
     </li>
+
+    <div class="btn-group mb-1 rounded-pill btn-light ">
+            <a class="dropdown-item " href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
+                {{ trans('content.Logout') }}
+            </a>
+            <div class="dropdown-menu">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+        </div>
     </ul>
 
 <!-- /.navbar -->

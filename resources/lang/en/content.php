@@ -8,6 +8,8 @@ return [
     "Edit_category"     => "Edit Category",
     'Show_category'     => 'Show Category',
     "create_product"    => "Create Product",
+    "products"          => "Products",
+    "Logout"            => "Logout",
 
 
 

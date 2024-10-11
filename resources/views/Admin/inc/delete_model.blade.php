@@ -16,7 +16,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trans('category_trans.Close') }}</button>
-                <form action="{{ route('categories.destroy', $data->id) }}" method="POST">
+
+                <form action="{{ route($routes, $data->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">{{ trans('category_trans.Delete') }}</button>

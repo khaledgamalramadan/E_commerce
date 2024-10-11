@@ -117,22 +117,22 @@ class CategoryController extends Controller
 
 
             $category->update([
-            'name' => ['ar' => $request->name_ar, 'en' => $request->name_en],
-            'slug' => $request->slug,
-            'description' => ['ar' => $request->description_ar, 'en' => $request->description_en],
-            'is_showing' => $request->is_showing ? '1' : '0',
-            'is_populer' => $request->is_populer ? '1' : '0',
-            'meta_title' => ['ar' => $request->meta_title_ar, 'en' => $request->meta_title_en],
+            'name'             => ['ar' => $request->name_ar, 'en' => $request->name_en],
+            'slug'             => $request->slug,
+            'description'      => ['ar' => $request->description_ar, 'en' => $request->description_en],
+            'is_showing'       => $request->is_showing ? '1' : '0',
+            'is_populer'       => $request->is_populer ? '1' : '0',
+            'meta_title'       => ['ar' => $request->meta_title_ar, 'en' => $request->meta_title_en],
             'meta_description' => ['ar' => $request->meta_description_ar, 'en' => $request->meta_description_en],
-            'meta_keywords' => $request->meta_keywords,
-            'image' => $path,
+            'meta_keywords'    => $request->meta_keywords,
+            'image'            => $path,
 
             ]);
             flash()->success(trans("messages_trans.Success_update"));
             return view('Admin.Category.create');
         }
-        catch (\Exception $exception){
-            return redirect()->withErrors('error_catch', $exception->getMessage());
+        catch (\Exception $e){
+            return redirect()->back()->withErrors(['error_catch' => $e->getMessage()]);
 
         }
     }

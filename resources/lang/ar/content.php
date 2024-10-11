@@ -9,6 +9,7 @@ return [
     'Show_category'     => 'عرض تصنيف',
     "products"          => "المنتجات",
     "create_product"    => "انشاء منتج ",
+    "Logout"            => "تسجيل خروج",
 
 
 

@@ -57,7 +57,7 @@
                     <td>
                         <a href=" {{ route('categories.show',$category->id) }}" class="btn btn-outline-success">{{ trans('category_trans.show') }}</a>
                         <a href=" {{ route('categories.edit',$category->id) }}" class="btn btn-outline-primary">{{ trans('category_trans.Edit') }}</a>
-                        @include('Admin.inc.delete_model', ['data' => $category])
+                        @include('Admin.inc.delete_model', ['data' => $category,'routes'=>'categories.destroy'])
                     </td>
                 </tr>
                 @endforeach

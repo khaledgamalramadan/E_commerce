@@ -7,7 +7,7 @@
         'is_populer'                => 'Populer',
         'Actions'                   => 'Actions',
 
-        'category'                  => 'category',
+        'category'                  => 'Category',
         'name_ar'                   => 'arabic name',
         'name_en'                   => 'english name',
         'slug'                      => 'slug',
@@ -15,7 +15,8 @@
         'short_description_en'      => 'short description en',
         'description_ar'            => 'arabic description',
         'description_en'            => 'english description',
-        'meta_title'               => ' meta title',
+        'meta_title_ar'             => ' meta title ar',
+        'meta_title_en'             => ' meta title en',
         'meta_description_ar'       => 'arabic meta description',
         'meta_description_en'       => 'english meta description',
         'meta_keyword'              => 'meta keyword',
@@ -32,5 +33,11 @@
 
 
         'save'                      => 'save',
+        'Create'                    => 'Create',
+        'show'                      => 'show',
+        'Edit'                      => 'Edit',
+        'Delete'                    => 'Delete',
+        'Close'                     => 'Close',
+
 
     ];
